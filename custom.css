@@ -82,7 +82,7 @@
     }
 
     #burg-button{
-      position: fixed;
+      position: inherit;
       height: 50px;
       width: 50px;
       top: 55px;

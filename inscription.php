@@ -2,6 +2,9 @@
 
 include("dbtools.php");
 
+function wpdb($dbh="membre")
+{
+
 if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 	
 	if ((isset($_POST['login']) && !empty($_POST['login'])) && (isset($_POST['pass']) && !empty($_POST['pass'])) && (isset($_POST['pass_confirm']) && !empty($_POST['pass_confirm']))) {
@@ -10,18 +13,18 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 		$erreur = 'Les 2 mots de passe sont différents.';
 	}
 	else {
-		$dbn = ouvreBase('mysql:host=localhost', 'root', 'Boeing737nextgen');
+		$dbn = ouvreBase();
 
-		PDO::__construct('labo', $dbn);
+		//PDO::__construct('labo', $dbn);
 
-		$sql = 'SELECT count(*) FROM membre WHERE login="'.mysql_escape_string($_POST['login']).'"';
-		//$req = PDO::__construct($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.PDO_MySQL());
+		$sql = 'SELECT count(*) FROM membre WHERE login="'.wpdb($_POST['login']).'"';
+		$req = wpdb($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.PDO_MySQL());
 		$dbn->prepare($sql);
-		$data = mysql_fetch_array($req);
+		$data = wpdb($req);
 
 		if ($data[0] == 0) {
-		$sql = 'INSERT INTO membre VALUES("", "'.mysql_escape_string($_POST['login']).'", "'.mysql_escape_string(md5($_POST['pass'])).'")';
-		PDO::__construct($sql) or die('Erreur SQL !'.$sql.'<br />'.PDO::__construct());
+		$sql = 'INSERT INTO membre VALUES("", "'.wpdb($_POST['login']).'", "'.wpdb(md5($_POST['pass'])).'")';
+		wpdb($sql) or die('Erreur SQL !'.$sql.'<br />'.wpdb());
 
 		session_start();
 		$_SESSION['login'] = $_POST['login'];
@@ -37,7 +40,7 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 	$erreur = 'Au moins un des champs est vide.';
 	}
 }
-
+}
 ?>
 
 <html>

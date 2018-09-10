@@ -6,11 +6,11 @@ include("dbtools.php");
 if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 	if ((isset($_POST['login']) && !empty($_POST['login'])) && (isset($_POST['pass']) && !empty($_POST['pass']))) {
 
-	$dbn = ouvreBase('mysql:host=localhost', 'root', 'Boing737nextgen');
-	PDO::__construct('labo', $dbn);
+	$dbn = ouvreBase();
+	//PDO::__construct('labo', $dbn);
 
 	
-	$sql = 'SELECT count(*) FROM membre WHERE login="'.mysql_escape_string($_POST['login']).'" AND pass_md5="'.mysql_escape_string(md5($_POST['pass'])).'"';
+	$sql = 'SELECT count(*) FROM membre WHERE login="'.wpdb($_POST['login']).'" AND pass_md5="'.wpdb(md5($_POST['pass'])).'"';
 	$req = PDO::__construct($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.PDO::__construct());
 	$data = mysql_fetch_array($req);
 
